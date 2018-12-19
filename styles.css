@@ -1,0 +1,18 @@
+body {
+  background-color: #c3c5cd;
+  margin: 0;
+}
+.nav ul {
+  list-style: none;
+  display: flex;
+  flex-direction: row;
+}
+
+.nav ul li {
+  padding-left: 3%;
+}
+
+canvas {
+  background-color: white;
+  border: 1px solid black;
+}
