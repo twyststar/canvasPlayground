@@ -42,6 +42,13 @@ var canvasElement = $("<canvas width='" + CANVAS_WIDTH +
 var canvas = canvasElement.get(0).getContext("2d");
 canvasElement.appendTo("#spaceCanvas");
 
+function collides(a, b) {
+  return a.x < b.x + b.width &&
+    a.x + a.width > b.x &&
+    a.y < b.y + b.height &&
+    a.y + a.height > b.y;
+}
+
 // Create player object and draw on screen
 var player = {
   color: "#00A",
@@ -71,6 +78,9 @@ var player = {
       x: this.x + this.width / 2,
       y: this.y + this.height / 2
     };
+  },
+  explode: function () {
+    this.active = false;
   }
 };
 
@@ -89,6 +99,24 @@ setInterval(function () {
 //   textX += 1;
 //   textY += 1;
 // }
+
+function handleCollisions() {
+  playerBullets.forEach(function (bullet) {
+    enemies.forEach(function (enemy) {
+      if (collides(bullet, enemy)) {
+        enemy.explode();
+        bullet.active = false;
+      }
+    });
+  });
+
+  enemies.forEach(function (enemy) {
+    if (collides(enemy, player)) {
+      enemy.explode();
+      player.explode();
+    }
+  });
+}
 
 function update() {
 
@@ -134,6 +162,8 @@ function update() {
   if (Math.random() < 0.1) {
     enemies.push(Enemy());
   }
+
+  handleCollisions();
 }
 
 function draw() {
@@ -220,6 +250,11 @@ function Enemy(I) {
     I.age++;
 
     I.active = I.active && I.inBounds();
+  };
+
+  I.explode = function () {
+    this.active = false;
+    // Extra Credit: Add an explosion graphic
   };
 
   return I;
