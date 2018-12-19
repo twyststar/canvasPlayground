@@ -1,3 +1,7 @@
 #spaceCanvas {
   padding: 2%;
 }
+
+#spaceCanvas canvas {
+  background-color: #000;
+}

@@ -49,9 +49,12 @@ var player = {
   y: 270,
   width: 32,
   height: 32,
+  sprite: Sprite("player"),
+
   draw: function () {
-    canvas.fillStyle = this.color;
-    canvas.fillRect(this.x, this.y, this.width, this.height);
+    this.sprite.draw(canvas, this.x, this.y);
+    // canvas.fillStyle = this.color;
+    // canvas.fillRect(this.x, this.y, this.width, this.height);
   },
   shoot: function () {
     console.log("Pew pew");
@@ -101,13 +104,13 @@ function update() {
     player.x += 5;
   }
 
-  if (keydown.up) {
-    player.y -= 5;
-  }
+  // if (keydown.up) {
+  //   player.y -= 5;
+  // }
 
-  if (keydown.down) {
-    player.y += 5;
-  }
+  // if (keydown.down) {
+  //   player.y += 5;
+  // }
 
   player.x = player.x.clamp(0, CANVAS_WIDTH - player.width);
   player.y = player.y.clamp(0, CANVAS_HEIGHT - player.height);
@@ -156,7 +159,7 @@ function Bullet(I) {
   I.yVelocity = -I.speed;
   I.width = 3;
   I.height = 3;
-  I.color = "#000";
+  I.color = "#aadbff";
 
   I.inBounds = function () {
     return I.x >= 0 && I.x <= CANVAS_WIDTH &&
@@ -187,6 +190,7 @@ function Enemy(I) {
   I.age = Math.floor(Math.random() * 128);
 
   I.color = "#A2B";
+  I.sprite = Sprite("enemy");
 
   I.x = CANVAS_WIDTH / 4 + Math.random() * CANVAS_WIDTH / 2;
   I.y = 0;
@@ -202,8 +206,9 @@ function Enemy(I) {
   };
 
   I.draw = function () {
-    canvas.fillStyle = this.color;
-    canvas.fillRect(this.x, this.y, this.width, this.height);
+    this.sprite.draw(canvas, this.x, this.y);
+    // canvas.fillStyle = this.color;
+    // canvas.fillRect(this.x, this.y, this.width, this.height);
   };
 
   I.update = function () {
